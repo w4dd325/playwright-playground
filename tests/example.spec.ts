@@ -16,3 +16,14 @@ test('get started link', async ({ page }) => {
   // Expects page to have a heading with the name of Installation.
   await expect(page.getByRole('heading', { name: 'Installation' })).toBeVisible();
 });
+
+test('Should fetch a random joke', async ({ request }) => {
+  const baseUrl = 'https://api.chucknorris.io/jokes/random';
+  const response = await request.get(baseUrl);
+  expect(response.status()).toBe(200);
+
+  const responseBody = await response.json();
+  expect(responseBody).toHaveProperty('value');
+  expect(typeof responseBody.value).toBe('string');
+  expect(responseBody.value.length).toBeGreaterThan(0);
+});
